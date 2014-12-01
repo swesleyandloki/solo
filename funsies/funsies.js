@@ -4,37 +4,39 @@ angular.module('funsies', [
 ])
 
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
   $stateProvider
     .state('black', {
-      templateUrl:'funsies/black.html',
+      templateUrl:'./black/black.html',
       // controller: 'BlackController',
       url: '/black',
       // authenticate: true
     })
     .state('shirts', {
-      templateUrl:'funsies/shirts.html',
-      // controller: 'AllShirtsController',
+      templateUrl:'./shirts/shirts.html',
+      controller: 'ShirtsController',
       url: '/shirts',
       // authenticate: true
     })
     .state('signin', {
-      templateUrl:'funsies/auth/signin.html',
+      templateUrl:'./auth/signin/signin.html',
       // controller: 'AuthController',
       url: '/signin'
     })
     .state('signup', {
-      templateUrl:'funsies/auth/signup.html',
+      templateUrl:'./auth/signup.html',
       // controller: 'AuthController',
       url: '/signup'
     })
     .state('whoops', {
-      templateUrl:'funsies/whoops.html',
+      templateUrl:'./whoops.html',
       // controller: 'WhoopsController',
       url: '/whoops'
     })
+    
+  })
 
-   })
+
 
 
 .controller('CommentsController', function($scope){

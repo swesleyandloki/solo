@@ -7,29 +7,29 @@ angular.module('funsies', [
 .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
   $stateProvider
     .state('black', {
-      templateUrl:'./black/black.html',
-      // controller: 'BlackController',
+      templateUrl:'funsies/black/black.html',
+      controller: 'BlackController',
       url: '/black',
       // authenticate: true
     })
     .state('shirts', {
-      templateUrl:'./shirts/shirts.html',
-      controller: 'ShirtsController',
+      templateUrl:'funsies/shirts/shirts.html',
+      controller: 'ShirtController',
       url: '/shirts',
       // authenticate: true
     })
     .state('signin', {
-      templateUrl:'./auth/signin/signin.html',
+      templateUrl:'funsies/auth/signin/signin.html',
       // controller: 'AuthController',
       url: '/signin'
     })
     .state('signup', {
-      templateUrl:'./auth/signup.html',
+      templateUrl:'funsies/auth/signup.html',
       // controller: 'AuthController',
       url: '/signup'
     })
     .state('whoops', {
-      templateUrl:'./whoops.html',
+      templateUrl:'funsies/whoops.html',
       // controller: 'WhoopsController',
       url: '/whoops'
     })

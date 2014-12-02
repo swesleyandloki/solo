@@ -1,16 +1,17 @@
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-5">
 	    <div ng-controller="ShirtController">
 	        <h2>Show Us Your Best Fred</h2>
 	        <img src="{{currentLink}}" height="300" width="300"/>
 	        <br></br>
+	        <h4>Black Shirt?</h4><input type="checkbox" ng-model="black">
 	        <form class="form-inline">
 	            <input class="form-control" ng-model="imgLink" placeholder="share a Fred"/>
 	            <button class="btn btn-success" ng-click="submitPic()">Fred</button>
 	        </form>
 	    </div>
 	</div>
-	  	<div class="col-md-6">
+	  	<div class="col-md-4">
 	  	    <div ng-controller="CommentsController">
 	  	      <h2>Praise Fred</h2>
 	  	      <form class="form-inline">

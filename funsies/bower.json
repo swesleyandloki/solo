@@ -1,0 +1,26 @@
+{
+  "name": "funsies",
+  "version": "0.0.0",
+  "authors": ["swesleyandloki"],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/lib"
+  ],
+  "dependencies": {
+    "angular": "~1.2.18",
+    "angular-route": "~1.2.18",
+    "angular-mocks": "~1.2.18",
+    "bootstrap": "~3.3.1",
+    "jquery": "~2.1.1",
+    "material-bootstrap": "~0.3.0",
+    "bootstrap-material-design": "~0.1.6",
+    "angular-ui-router": "~0.2.13",
+    "ngFx": "v1.0.4"
+  },
+  "resolutions": {
+    "bootstrap": "~3.3.1"
+  }
+}

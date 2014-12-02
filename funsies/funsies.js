@@ -7,36 +7,62 @@ angular.module('funsies', [
 .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
   $stateProvider
     .state('black', {
-      templateUrl:'funsies/black/black.html',
+      templateUrl:'black/black.html',
       controller: 'BlackController',
       url: '/black',
       // authenticate: true
     })
     .state('shirts', {
-      templateUrl:'funsies/shirts/shirts.html',
+      templateUrl:'shirts/shirts.html',
       controller: 'ShirtController',
       url: '/shirts',
       // authenticate: true
     })
     .state('signin', {
-      templateUrl:'funsies/auth/signin/signin.html',
-      // controller: 'AuthController',
+      templateUrl:'auth/signin/signin.html',
+      controller: 'AuthController',
       url: '/signin'
     })
-    .state('signup', {
-      templateUrl:'funsies/auth/signup.html',
-      // controller: 'AuthController',
-      url: '/signup'
+    .state('signout', {
+      templateUrl:'auth/signout.html',
+      controller: 'AuthController',
+      url: '/signout'
     })
     .state('whoops', {
-      templateUrl:'funsies/whoops.html',
-      // controller: 'WhoopsController',
+      templateUrl:'whoops.html',
+      controller: 'WhoopsController',
       url: '/whoops'
     })
     
   })
 
+.controller('VoteController', function($scope){
+  $scope.yesSir = 0;
+  $scope.noSir = 0;
+  $scope.unclickable = false;
+  $scope.yesIncrement = function(){
+    $scope.unclickable = true;
+    $scope.yesSir++;
+    $scope.digest();
+  }
+  $scope.noIncrement = function(){
+    $scope.unclickable = true;
+    $scope.noSir++;
+    $scope.digest();
+  }
+})
 
+.controller('WhoopsController', function($scope){
+
+})
+
+.controller('BlackController', function($scope){
+
+})
+
+.controller('AuthController', function($scope){
+
+})
 
 
 .controller('CommentsController', function($scope){
@@ -63,7 +89,6 @@ angular.module('funsies', [
   	$scope.imgLink = '';
   };
   $scope.changeFredsFace = function(){
-  	// console.log('changing face');
   	linkIndex++;
   	if(!$scope.linkBucket[linkIndex]){
   	  linkIndex = 0;

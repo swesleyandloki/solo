@@ -1,8 +1,6 @@
 		<div>
-	  	    <div ng-controller="BlackController">
-	  	      <h2>Black Shirts</h2>
-	          <ul>
-	      	    <img ng-repeat="shirt in linkBucket" source="funsies" src="{{shirt.imgUrl}}">
-	          </ul>
+	  	    <div ng-controller="ShirtController">
+	  	      <h2>Black Shirts Only</h2>
+	      	    <img height="300" width="300" ng-repeat="shirt in data.linkBucket | filter:{black: true}:true" source="funsies" src="{{shirt.imgLink}}">
 		    </div>
 		</div>

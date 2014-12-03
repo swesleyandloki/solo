@@ -1,4 +1,8 @@
+
+var username = prompt('What is your name?')
+
 angular.module('funsies', [
+  'funsies.services',
   'ngFx',
   'ui.router'
 ])
@@ -8,7 +12,7 @@ angular.module('funsies', [
   $stateProvider
     .state('black', {
       templateUrl:'black/black.html',
-      controller: 'BlackController',
+      controller: 'ShirtController',
       url: '/black',
       // authenticate: true
     })
@@ -18,83 +22,123 @@ angular.module('funsies', [
       url: '/shirts',
       // authenticate: true
     })
-    .state('signin', {
-      templateUrl:'auth/signin/signin.html',
-      controller: 'AuthController',
-      url: '/signin'
-    })
-    .state('signout', {
-      templateUrl:'auth/signout.html',
-      controller: 'AuthController',
-      url: '/signout'
-    })
-    .state('whoops', {
-      templateUrl:'whoops.html',
-      controller: 'WhoopsController',
-      url: '/whoops'
-    })
     
   })
 
-.controller('VoteController', function($scope){
-  $scope.yesSir = 0;
-  $scope.noSir = 0;
+
+.controller('VoteController', function(Votes, $scope, $interval){
+  $scope.data = {};
   $scope.unclickable = false;
+  $scope.getVotes = function(){
+    // for each link in links make property $scope.data.link = link;
+    Votes.get()
+    .then(function(results){
+      console.log('VOTESVOTESVOTES',results);
+      var yesCount = 0;
+      var noCount = 0;
+      for(var i=0; i<results.length; i++){
+        if(results[i]['yes']===true){
+          yesCount++;
+        }else{
+          noCount++;
+        }
+      }
+      $scope.yesSir = yesCount;
+      $scope.noSir = noCount;
+    })
+    .catch(function(err) {
+      console.log(err);
+      console.log('NOVOTES')
+    });
+  };
+  $interval($scope.getVotes, 1000);
   $scope.yesIncrement = function(){
+    var vote = {};
     $scope.unclickable = true;
     $scope.yesSir++;
-    $scope.digest();
+    vote['yes'] = true;
+    vote['no'] = false;
+    Votes.add(vote)
+    .then(function(){
+      Votes.get();
+    })
   }
   $scope.noIncrement = function(){
+    var vote = {};
     $scope.unclickable = true;
     $scope.noSir++;
-    $scope.digest();
+    vote['yes'] = false;
+    vote['no'] = true;
+    Votes.add(vote)
+    .then(function(){
+      Votes.get();
+    })
   }
 })
 
-.controller('WhoopsController', function($scope){
 
-})
-
-.controller('BlackController', function($scope){
-
-})
-
-.controller('AuthController', function($scope){
-
-})
-
-
-.controller('CommentsController', function($scope){
-  $scope.commentBucket = [{author: 'me', text: 'fred has black shirts'},{author: 'ash', text: 'more praise'}];
+.controller('CommentsController', function(Comments, $interval, $scope){
+  $scope.data = {};
+  $scope.data.commentBucket = [{author: 'me', text: 'fred has black shirts'},{author: 'ash', text: 'more praise'}];
   $scope.submitComment = function(){
-  	var comment = {};
-  	comment.author = $scope.commentAuthor;
-  	comment.text = $scope.commentText;
-  	$scope.commentBucket.push(comment);
-  	$scope.commentAuthor = '';
-  	$scope.commentText = '';
-
+    var comment = {};
+    comment.author = username;
+    comment.text = $scope.commentText;
+    console.log(comment);
+    Comments.add(comment);
+    $scope.commentText = '';
   }
+  $scope.getComments = function(){
+    // for each link in links make property $scope.data.link = link;
+    Comments.get()
+    .then(function(results){
+      console.log(results);
+      $scope.data.commentBucket = results;
+
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  };
+  $interval($scope.getComments, 3000);
 })
 
-.controller('ShirtController', function($scope, $interval){
+.controller('ShirtController', function(Shirts, $scope, $interval){
+  $scope.data = {};
   var linkIndex = 0;
-  $scope.linkBucket = [{url: "https://pbs.twimg.com/profile_images/520822528/HEADSHOT-2_400x400.jpg"},{url:"https://avatars0.githubusercontent.com/u/99825?v=3&s=460"}];
-  $scope.currentLink = $scope.linkBucket[linkIndex].url;
+  $scope.data.linkBucket = [{imgLink: "https://pbs.twimg.com/profile_images/520822528/HEADSHOT-2_400x400.jpg"},{imgLink:"https://avatars0.githubusercontent.com/u/99825?v=3&s=460"}];
+  $scope.currentLink = $scope.data.linkBucket[linkIndex].imgLink;
   $scope.submitPic = function(){
-  	var link = {};
-  	link.url = $scope.imgLink;
-  	$scope.linkBucket.push(link);
-  	$scope.imgLink = '';
+    var shirt = {};
+    shirt.imgLink = $scope.imgLink;
+    shirt.black = $scope.black;
+    shirt.username = username;
+    Shirts.add(shirt);
+    $scope.imgLink = '';
+    $scope.black = false;
   };
+  $scope.getShirts = function(){
+    // for each link in links make property $scope.data.link = link;
+    Shirts.get()
+    .then(function(results){
+      console.log(results);
+      $scope.data.linkBucket = results;
+
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  };
+  $interval($scope.getShirts, 3000);
+
   $scope.changeFredsFace = function(){
-  	linkIndex++;
-  	if(!$scope.linkBucket[linkIndex]){
-  	  linkIndex = 0;
-  	}
-  	$scope.currentLink = $scope.linkBucket[linkIndex].url;
-  	// console.log($scope.currentLink);
+    linkIndex++;
+    if(linkIndex>=$scope.data.linkBucket.length){
+      console.log('PUPPIES',linkIndex);
+      linkIndex = 0;
+    }
+
+    $scope.currentLink = $scope.data.linkBucket[linkIndex].imgLink;
   }
   $interval($scope.changeFredsFace, 2000);
 

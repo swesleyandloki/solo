@@ -13,6 +13,7 @@ angular.module('funsies.services', [])
     });
   };
   var add = function(commentObj) {
+    console.log('this is a comment obj',commentObj)
     return $http({
       method: 'POST',
       url: '/api/Comment',
@@ -47,6 +48,36 @@ angular.module('funsies.services', [])
       method: 'POST',
       url: '/api/Shirt',
       data: shirtObj
+    })
+    .then(function(){
+      console.log('HeyThere!');
+    })
+    .catch(function(err){
+      console.log(err, 'CAUGHTCAUGHT!');
+    });
+  };
+  return {
+    get: get,
+    add: add
+  }
+})
+.factory('Votes', function ($http) {
+  // Your code here
+  var get = function() {
+    return $http({
+      method: 'GET',
+      url: '/api/Vote'
+    })
+    .then(function(resp){
+      console.log('RESPONDING',resp);
+      return resp.data;
+    });
+  };
+  var add = function(vote) {
+    return $http({
+      method: 'POST',
+      url: '/api/Vote',
+      data: vote
     })
     .then(function(){
       console.log('HeyThere!');
